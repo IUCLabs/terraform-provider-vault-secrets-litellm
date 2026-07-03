@@ -1,5 +1,5 @@
-resource "litellmvaultsecret_secret_backend_role" "team_a" {
-  backend = litellmvaultsecret_secret_backend.litellm.path
+resource "litellm_secret_backend_role" "team_a" {
+  backend = litellm_secret_backend.litellm.path
   name    = "team-a"
 
   models     = ["gpt-3.5-turbo", "gpt-4"]

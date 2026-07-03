@@ -1,17 +1,17 @@
 terraform {
   required_providers {
-    litellmvaultsecret = {
+    litellm = {
       source = "git.unkin.net/unkin/litellmvaultsecret"
     }
   }
 }
 
-provider "litellmvaultsecret" {
+provider "litellm" {
   address = "http://127.0.0.1:8200"
   token   = "root"
 }
 
-resource "litellmvaultsecret_secret_backend" "litellm" {
+resource "litellm_secret_backend" "litellm" {
   path        = "litellm"
   description = "LiteLLM dynamic virtual keys (e2e)"
   # Reachable from inside the vault container, where the plugin runs.
@@ -19,8 +19,8 @@ resource "litellmvaultsecret_secret_backend" "litellm" {
   master_key = "sk-master-e2e-1234"
 }
 
-resource "litellmvaultsecret_secret_backend_role" "team_a" {
-  backend    = litellmvaultsecret_secret_backend.litellm.path
+resource "litellm_secret_backend_role" "team_a" {
+  backend    = litellm_secret_backend.litellm.path
   name       = "team-a"
   models     = ["gpt-3.5-turbo"]
   max_budget = 10

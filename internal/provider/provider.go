@@ -29,7 +29,10 @@ func New(version string) func() provider.Provider {
 }
 
 func (p *litellmProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	resp.TypeName = "litellmvaultsecret"
+	// The provider's source address is git.unkin.net/unkin/litellmvaultsecret,
+	// but its resources are prefixed "litellm_" (declare it in required_providers
+	// under the local name "litellm"), mirroring how google-beta ships google_*.
+	resp.TypeName = "litellm"
 	resp.Version = p.version
 }
 

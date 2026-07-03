@@ -13,21 +13,25 @@ config, and the roles that scope generated virtual keys — for use from
 ```hcl
 terraform {
   required_providers {
-    litellmvaultsecret = {
+    litellm = {
       source = "git.unkin.net/unkin/litellmvaultsecret"
     }
   }
 }
 
-provider "litellmvaultsecret" {
+provider "litellm" {
   address = "https://vault.example.com" # or VAULT_ADDR
   token   = var.vault_token             # or VAULT_TOKEN
 }
 ```
 
+> The provider's source is `git.unkin.net/unkin/litellmvaultsecret`, but its
+> resources are prefixed `litellm_`. Declare it under the local name `litellm`
+> (as above), the same way `google-beta` ships `google_*` resources.
+
 ## Resources
 
-### `litellmvaultsecret_secret_backend`
+### `litellm_secret_backend`
 
 Mounts the engine and writes its connection config.
 
@@ -40,7 +44,7 @@ Mounts the engine and writes its connection config.
 | `description`             | no       | Mount description.                                   |
 | `request_timeout_seconds` | no       | Plugin→LiteLLM HTTP timeout (default 30).            |
 
-### `litellmvaultsecret_secret_backend_role`
+### `litellm_secret_backend_role`
 
 Manages a role that constrains generated keys.
 
@@ -58,14 +62,14 @@ Manages a role that constrains generated keys.
 ## Example
 
 ```hcl
-resource "litellmvaultsecret_secret_backend" "litellm" {
+resource "litellm_secret_backend" "litellm" {
   path       = "litellm"
   base_url   = "http://litellm.litellm.svc:4000"
   master_key = var.litellm_master_key
 }
 
-resource "litellmvaultsecret_secret_backend_role" "team_a" {
-  backend    = litellmvaultsecret_secret_backend.litellm.path
+resource "litellm_secret_backend_role" "team_a" {
+  backend    = litellm_secret_backend.litellm.path
   name       = "team-a"
   models     = ["gpt-3.5-turbo", "gpt-4"]
   max_budget = 50
@@ -80,8 +84,8 @@ budgeted, lease-bound virtual key.
 ## Import
 
 ```sh
-terraform import litellmvaultsecret_secret_backend.litellm litellm
-terraform import litellmvaultsecret_secret_backend_role.team_a litellm/roles/team-a
+terraform import litellm_secret_backend.litellm litellm
+terraform import litellm_secret_backend_role.team_a litellm/roles/team-a
 ```
 
 ## Development

@@ -1,17 +1,17 @@
 terraform {
   required_providers {
-    litellmvaultsecret = {
+    litellm = {
       source = "git.unkin.net/unkin/litellmvaultsecret"
     }
   }
 }
 
-provider "litellmvaultsecret" {
+provider "litellm" {
   # address and token fall back to VAULT_ADDR / VAULT_TOKEN
   address = "https://vault.example.com"
 }
 
-resource "litellmvaultsecret_secret_backend" "litellm" {
+resource "litellm_secret_backend" "litellm" {
   path        = "litellm"
   description = "LiteLLM dynamic virtual keys"
   base_url    = "http://litellm.litellm.svc:4000"
