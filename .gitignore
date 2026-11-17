@@ -1,4 +1,4 @@
-/terraform-provider-litellmvaultsecret
+/terraform-provider-vault-secrets-litellm
 *.zip
 *.out
 *.test

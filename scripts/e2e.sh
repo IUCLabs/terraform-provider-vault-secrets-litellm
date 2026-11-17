@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# End-to-end test for terraform-provider-litellmvaultsecret.
+# End-to-end test for terraform-provider-vault-secrets-litellm.
 #
 # Builds the sibling litellm plugin and this provider, boots Vault + LiteLLM +
 # Postgres in Docker, then runs a real `terraform apply` through the provider to
@@ -16,7 +16,7 @@ COMPOSE="docker compose -f ${COMPOSE_FILE}"
 TF="${TF:-terraform}"
 E2E_DIR="${ROOT_DIR}/test/e2e"
 PLUGIN_BIN="vault-plugin-secrets-litellm"
-PROVIDER_BIN="terraform-provider-litellmvaultsecret"
+PROVIDER_BIN="terraform-provider-vault-secrets-litellm"
 
 MASTER_KEY="sk-master-e2e-1234"
 LITELLM_ADDR="http://127.0.0.1:4000"
@@ -71,7 +71,7 @@ blue "Writing terraform dev_overrides config"
 cat > "${ROOT_DIR}/test/dev.tfrc" <<EOF
 provider_installation {
   dev_overrides {
-    "git.unkin.net/unkin/litellmvaultsecret" = "${ROOT_DIR}"
+    "registry.terraform.io/iuclabs/vault-secrets-litellm" = "${ROOT_DIR}"
   }
   direct {}
 }

@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     litellm = {
-      source = "git.unkin.net/unkin/litellmvaultsecret"
+      source = "IUCLabs/vault-secrets-litellm"
     }
   }
 }

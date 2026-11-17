@@ -48,14 +48,14 @@ func (r *secretBackendRoleResource) Schema(_ context.Context, _ resource.SchemaR
 		Description: "Manages a role on the LiteLLM secrets engine that constrains generated virtual keys.",
 		Attributes: map[string]schema.Attribute{
 			"backend": schema.StringAttribute{
-				Description: "Mount path of the LiteLLM secrets engine.",
+				Description: "Mount path of the LiteLLM secrets engine. Changing this forces a new resource.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"name": schema.StringAttribute{
-				Description: "Name of the role.",
+				Description: "Name of the role. Keys are generated from creds/<name>. Changing this forces a new resource.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
@@ -71,7 +71,7 @@ func (r *secretBackendRoleResource) Schema(_ context.Context, _ resource.SchemaR
 				Optional:    true,
 			},
 			"key_alias_prefix": schema.StringAttribute{
-				Description: "Prefix for the auto-generated key alias.",
+				Description: "Prefix for the auto-generated key alias. Defaults to \"vault\".",
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString("vault"),

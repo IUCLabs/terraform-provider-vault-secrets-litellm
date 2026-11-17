@@ -45,17 +45,17 @@ func (r *secretBackendResource) Metadata(_ context.Context, req resource.Metadat
 
 func (r *secretBackendResource) Schema(_ context.Context, _ resource.SchemaRequest, resp *resource.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Mounts the LiteLLM secrets engine and writes its connection config.",
+		Description: "Mounts the LiteLLM secrets engine and writes its connection config. The plugin must already be registered in the plugin catalog.",
 		Attributes: map[string]schema.Attribute{
 			"path": schema.StringAttribute{
-				Description: "Mount path for the LiteLLM secrets engine (e.g. \"litellm\").",
+				Description: "Mount path for the LiteLLM secrets engine (e.g. \"litellm\"). Changing this forces a new resource.",
 				Required:    true,
 				PlanModifiers: []planmodifier.String{
 					stringplanmodifier.RequiresReplace(),
 				},
 			},
 			"plugin": schema.StringAttribute{
-				Description: "Registered plugin name/type to mount.",
+				Description: "Name of the plugin in the plugin catalog. Defaults to \"vault-plugin-secrets-litellm\". Changing this forces a new resource.",
 				Optional:    true,
 				Computed:    true,
 				Default:     stringdefault.StaticString(defaultPluginType),
@@ -70,16 +70,16 @@ func (r *secretBackendResource) Schema(_ context.Context, _ resource.SchemaReque
 				Default:     stringdefault.StaticString(""),
 			},
 			"base_url": schema.StringAttribute{
-				Description: "Base URL of the LiteLLM proxy (e.g. http://litellm:4000).",
+				Description: "Base URL of the LiteLLM proxy (e.g. https://litellm.example.com).",
 				Required:    true,
 			},
 			"master_key": schema.StringAttribute{
-				Description: "LiteLLM master key used to manage virtual keys.",
+				Description: "LiteLLM master key used to manage virtual keys. Write-only on the engine, so drift is not detected.",
 				Required:    true,
 				Sensitive:   true,
 			},
 			"request_timeout_seconds": schema.Int64Attribute{
-				Description: "HTTP timeout in seconds for calls from the plugin to the LiteLLM proxy.",
+				Description: "HTTP timeout in seconds for calls from the plugin to the LiteLLM proxy. Defaults to 30.",
 				Optional:    true,
 				Computed:    true,
 				Default:     int64default.StaticInt64(30),

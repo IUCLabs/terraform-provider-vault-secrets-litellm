@@ -1,4 +1,4 @@
-module git.unkin.net/unkin/terraform-provider-litellmvaultsecret
+module github.com/IUCLabs/terraform-provider-vault-secrets-litellm
 
 go 1.25
 

@@ -29,7 +29,7 @@ func New(version string) func() provider.Provider {
 }
 
 func (p *litellmProvider) Metadata(_ context.Context, _ provider.MetadataRequest, resp *provider.MetadataResponse) {
-	// The provider's source address is git.unkin.net/unkin/litellmvaultsecret,
+	// The provider's source address is IUCLabs/vault-secrets-litellm,
 	// but its resources are prefixed "litellm_" (declare it in required_providers
 	// under the local name "litellm"), mirroring how google-beta ships google_*.
 	resp.TypeName = "litellm"
@@ -38,7 +38,7 @@ func (p *litellmProvider) Metadata(_ context.Context, _ provider.MetadataRequest
 
 func (p *litellmProvider) Schema(_ context.Context, _ provider.SchemaRequest, resp *provider.SchemaResponse) {
 	resp.Schema = schema.Schema{
-		Description: "Manage the LiteLLM dynamic secrets engine (config and roles) on HashiCorp Vault or OpenBao.",
+		Description: "Manages the LiteLLM dynamic secrets engine (vault-plugin-secrets-litellm) on HashiCorp Vault or OpenBao: the engine mount, its connection to the LiteLLM proxy, and the roles that scope generated virtual keys.",
 		Attributes: map[string]schema.Attribute{
 			"address": schema.StringAttribute{
 				Description: "Address of the Vault/OpenBao server. Falls back to the VAULT_ADDR environment variable.",
